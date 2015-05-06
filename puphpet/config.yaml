@@ -265,20 +265,6 @@ mysql:
         root_password: '123'
         override_options: {  }
     adminer: 0
-    users:
-        mysqlnu_zp2tat857iyx:
-            name: admin
-            password: ''
-    databases:
-        mysqlnd_ooe4cw83uiu4:
-            name: admin
-            sql: ''
-    grants:
-        mysqlng_3x9j0chymh1t:
-            user: dbuser
-            table: '*.*'
-            privileges:
-                - ALL
 postgresql:
     install: '0'
     settings:
