@@ -190,6 +190,33 @@ Vagrant.configure('2') do |config|
       end
     end
   end
+  # CREATE SECONDARY DRIVE
+    if data['vm']['chosen_provider'].empty? || data['vm']['chosen_provider'] == 'virtualbox'
+
+      config.vm.provider :virtualbox do |virtualbox|
+        file_to_disk = File.realpath( "." ).to_s + "/extended_disk.vdi"
+        if ARGV[0] == "up" && ! File.exist?(file_to_disk)
+
+          disk_size = 60 # Amount of space (GB) to extend the VM with
+          puts "Creating #{disk_size}GB disk #{file_to_disk}."
+          virtualbox.customize [
+              'createhd',
+              '--filename', file_to_disk,
+              '--format', 'VDI',
+              '--size', (disk_size * 1024)
+              ]
+          virtualbox.customize [
+              'storageattach', :id,
+              '--storagectl', 'IDE Controller',
+              '--port', 1, '--device', 0,
+              '--type', 'hdd', '--medium',
+              file_to_disk
+              ]
+
+          config.ssh.pty = true # Ensure that we can execute the script
+        end
+      end
+    end
 
   ssh_username = !data['ssh']['username'].nil? ? data['ssh']['username'] : 'vagrant'
 
