@@ -182,7 +182,8 @@ php:
             - mbstring
             - xmlrpc
             - gd
-        pear: {  }
+        pear:
+            - SOAP
         pecl:
             - pecl_http
     ini:
